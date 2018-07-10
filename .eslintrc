@@ -1,7 +1,3 @@
 {
-  "extends": "rallycoding",
-  "plugins": ["react-native-globals"],
-  "env": {
-    "react-native-globals/all": true
-  }
+  "extends": "rallycoding"
 }
