@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 
 // Functional component
 // Reusable component with props
-const Header = (props) => {
+const Header = props => {
   const { textStyles, viewStyle } = styles;
 
   return (
