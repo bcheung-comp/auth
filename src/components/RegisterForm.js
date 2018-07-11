@@ -19,7 +19,7 @@ class RegisterForm extends Component {
         .then(this.onRegisterSuccess.bind(this))
         .catch(this.onRegisterFailed.bind(this));
     } else {
-      this.setState({ 
+      this.setState({
         password: '',
         confirmPassword: '',
         error: 'Passwords do not match.',
