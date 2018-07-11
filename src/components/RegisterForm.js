@@ -3,35 +3,46 @@ import { Text } from 'react-native';
 import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
-class LoginForm extends Component {
-  state = { email: '', password: '', error: '', loading: false };
+class RegisterForm extends Component {
+  state = { email: '', password: '', confirmPassword: '', error: '', loading: '' };
 
-  onLoginPress() {
-    const { email, password } = this.state;
+  onRegisterPress() {
+    const { email, password, confirmPassword } = this.state;
 
     this.setState({ error: '', loading: true });
     // must bind context since function passed into a promise
     // that will be invoked in the future
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(this.onLoginSuccess.bind(this))
-      .catch(this.onLoginFailed.bind(this));
+    if (password === confirmPassword) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(this.onRegisterSuccess.bind(this))
+        .catch(this.onRegisterFailed.bind(this));
+    } else {
+      this.setState({ 
+        password: '',
+        confirmPassword: '',
+        error: 'Passwords do not match.',
+        loading: false
+      });
+    }
   }
 
-  onLoginSuccess() {
+  onRegisterSuccess() {
     this.setState({
       email: '',
       password: '',
+      confirmPassword: '',
       error: '',
       loading: false
     });
   }
 
-  onLoginFailed() {
+  onRegisterFailed() {
     this.setState({
       email: '',
       password: '',
+      confirmPassword: '',
       error: 'Authentication Failed.',
       loading: false
     });
@@ -42,7 +53,7 @@ class LoginForm extends Component {
       return <Spinner size="small" />;
     }
 
-    return <Button onPress={this.onLoginPress.bind(this)}>Log in</Button>;
+    return <Button onPress={this.onRegisterPress.bind(this)}>Register</Button>;
   }
 
   render() {
@@ -65,13 +76,19 @@ class LoginForm extends Component {
             onChangeText={password => this.setState({ password })}
           />
         </CardSection>
-        
+        <CardSection>
+          <Input
+            label="Confirm Password"
+            placeholder="re-enter password"
+            secureTextEntry
+            value={this.state.confirmPassword}
+            onChangeText={confirmPassword => this.setState({ confirmPassword })}
+          />
+        </CardSection>
+
         <Text style={styles.errorTextStyle}>{this.state.error}</Text>
 
         <CardSection>{this.renderButton()}</CardSection>
-        <CardSection>
-          <Button onPress={this.props.onCreateAccountPress}>Create Account</Button>
-        </CardSection>
       </Card>
     );
   }
@@ -85,4 +102,4 @@ const styles = {
   }
 };
 
-export default LoginForm;
+export default RegisterForm;

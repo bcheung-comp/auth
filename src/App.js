@@ -3,10 +3,23 @@ import { View } from 'react-native';
 import firebase from 'firebase';
 import { Header, Button, Spinner, Card, CardSection } from './components/common';
 import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 
 class App extends Component {
-  state = { loggedIn: null };
+  constructor(props) {
+    super(props);
 
+    // Bind the this context to the handler function
+    this.handler = this.handler.bind(this);
+
+    // Set some state
+    this.state = {
+        register: false
+    };
+  }
+
+  state = { loggedIn: null, register: false };
+  
   componentWillMount() {
     firebase.initializeApp({
       apiKey: 'AIzaSyD2IFB87-dPE9_p3nLceXUGQ7xD_N4_Vzk',
@@ -20,8 +33,14 @@ class App extends Component {
       if (user) {
         this.setState({ loggedIn: true });
       } else {
-        this.setState({ loggedIn: false });
+        this.setState({ loggedIn: false, register: false });
       }
+    });
+  }
+
+  handler() {
+    this.setState({
+        register: true
     });
   }
 
@@ -36,7 +55,10 @@ class App extends Component {
           </Card>
         );
       case false:
-        return <LoginForm />;
+        if (this.state.register) {
+          return <RegisterForm />;
+        }
+        return <LoginForm onCreateAccountPress={this.handler} />;
       default:
         return (
           <View>
