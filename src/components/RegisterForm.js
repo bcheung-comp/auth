@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
 import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
@@ -86,7 +86,9 @@ class RegisterForm extends Component {
           />
         </CardSection>
 
-        <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+        </View>
 
         <CardSection>{this.renderButton()}</CardSection>
       </Card>

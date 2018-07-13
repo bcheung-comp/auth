@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
 import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
@@ -65,9 +65,9 @@ class LoginForm extends Component {
             onChangeText={password => this.setState({ password })}
           />
         </CardSection>
-        
-        <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+        </View>
         <CardSection>{this.renderButton()}</CardSection>
         <CardSection>
           <Button onPress={this.props.onCreateAccountPress}>Create Account</Button>
