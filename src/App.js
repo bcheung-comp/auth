@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { Header, Button, Spinner, Card, CardSection } from './components/common';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import { FIREBASE_CONFIG } from './FirebaseConfig';
 
 class App extends Component {
   constructor(props) {
@@ -21,14 +22,7 @@ class App extends Component {
   state = { loggedIn: null, register: false };
   
   componentWillMount() {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyD2IFB87-dPE9_p3nLceXUGQ7xD_N4_Vzk',
-      authDomain: 'auth-comp.firebaseapp.com',
-      databaseURL: 'https://auth-comp.firebaseio.com',
-      projectId: 'auth-comp',
-      storageBucket: 'auth-comp.appspot.com',
-      messagingSenderId: '500798647963'
-    });
+    firebase.initializeApp(FIREBASE_CONFIG);
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ loggedIn: true });
